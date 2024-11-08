@@ -1,0 +1,334 @@
+Harpa
+Para criar um servidor no SQL Server e conectar-se a ele utilizando o SQL Server Management Studio (SSMS), siga este passo a passo detalhado:
+
+### Criar o Servidor no SQL Server:
+
+1. **Instalação do SQL Server:**
+   - Baixe o arquivo de instalação do SQL Server no site da Microsoft.
+   - Execute o instalador e selecione a opção "Instalação" -> "Nova instalação do SQL Server".
+   - Siga as telas de configuração, escolhendo as opções adequadas, como a edição (recomenda-se Developer para uso gratuito) e os recursos a serem instalados. Certifique-se de marcar a opção para instalar o SQL Server Database Engine.
+
+2. **Configuração durante a instalação:**
+   - Durante a instalação, defina se deseja usar autenticação do Windows ou mista (SQL Server e Windows Authentication). Se optar por mista, configure a senha do administrador 'sa'.
+
+3. **Concluindo a instalação:**
+   - Após a conclusão da instalação, certifique-se de que o serviço do SQL Server está em execução. Você pode verificar isso abrindo os "Serviços" do Windows e procurando por "SQL Server (MSSQLSERVER)" ou uma instância nomeada, dependendo da configuração escolhida.
+
+### Conectar-se ao SQL Server usando o SQL Server Management Studio (SSMS):
+
+1. **Abrir o SQL Server Management Studio (SSMS):**
+   - Após a instalação do SSMS, abra o aplicativo.
+
+2. **Conectar ao Servidor:**
+   - Na janela de conexão do SSMS, insira o nome do servidor SQL. Isso geralmente é o nome da sua máquina (ou localhost) ou o endereço IP do servidor onde o SQL Server está instalado.
+
+3. **Autenticação:**
+   - Escolha o método de autenticação:
+     - **Windows Authentication**: Use suas credenciais do Windows.
+     - **SQL Server Authentication**: Use 'sa' como nome de usuário e a senha definida durante a instalação.
+
+4. **Conectar:**
+   - Clique em "Conectar". O SSMS tentará estabelecer a conexão com o servidor SQL especificado.
+
+5. **Gerenciar o Servidor:**
+   - Após a conexão bem-sucedida, você terá acesso ao SQL Server Management Studio, onde poderá criar bancos de dados, tabelas, executar consultas SQL, entre outras tarefas administrativas.
+
+Certifique-se de seguir cada passo com atenção para garantir uma configuração e conexão adequadas entre o SQL Server e o SQL Server Management Studio.
+
+
+
+
+
+ChatGpt:
+
+## Guia Completo para Configurar o SQL Server, Criar um Banco de Dados e Inserir Dados
+
+### 1. Instalar o SQL Server
+1. Baixe o **SQL Server** na página oficial da Microsoft: [Baixar SQL Server](https://www.microsoft.com/pt-br/sql-server/sql-server-downloads).
+2. Escolha a edição que melhor se adeque (como **Developer** ou **Express**).
+3. Após o download, abra o instalador e selecione **Nova instalação independente do SQL Server**.
+4. Siga as instruções:
+   - **Tipo de Instalação**: "Nova instalação de SQL Server".
+   - **Tipo de Servidor**: Escolha "Servidor padrão".
+   - **Nome da Instância**: Deixe como **SQLExpress** ou escolha outro nome, se preferir.
+5. Na **configuração de autenticação**:
+   - Opte pelo **Modo Misturado (SQL Server e Windows)** para acessar tanto com o Windows quanto com o SQL Server.
+   - Defina uma senha para o administrador `sa`.
+6. Conclua a instalação.
+
+### 2. Iniciar o Serviço do SQL Server
+1. Abra o **SQL Server Configuration Manager**.
+2. Em **SQL Server Services**, verifique se o serviço **SQL Server (MSSQLSERVER)** está em execução. Caso contrário, clique com o botão direito e escolha **Iniciar**.
+3. Ative o **SQL Server Browser** para permitir que outros dispositivos descubram seu servidor na rede.
+
+### 3. Instalar o SQL Server Management Studio (SSMS)
+1. Baixe o **SQL Server Management Studio (SSMS)** em: [Baixar SSMS](https://docs.microsoft.com/pt-br/sql/ssms/download-sql-server-management-studio-ssms).
+2. Siga o instalador e finalize a instalação.
+
+### 4. Conectar-se ao Servidor no SSMS
+1. Abra o **SQL Server Management Studio (SSMS)**.
+2. Na tela de **Conectar ao Servidor**:
+   - **Tipo de Servidor**: Deixe como "Motor de Banco de Dados".
+   - **Nome do Servidor**: Digite `localhost\SQLExpress` (ou `.\SQLExpress`) se estiver usando a instalação local com o nome da instância padrão.
+   - **Autenticação**: Escolha **Autenticação do Windows** ou **Autenticação do SQL Server**.
+   - Caso tenha escolhido Autenticação do SQL Server, insira o usuário `sa` e a senha definida na instalação.
+3. Clique em **Conectar**.
+
+### 5. Criar um Novo Banco de Dados
+1. No **Object Explorer** (painel esquerdo), clique com o botão direito em **Databases (Bancos de Dados)** e selecione **New Database... (Novo Banco de Dados...)**.
+2. Na janela que aparece:
+   - **Database Name (Nome do Banco de Dados)**: Insira o nome do banco de dados (ex: `MinhaEmpresa`).
+3. Clique em **OK** para criar o banco de dados.
+
+### 6. Criar as Tabela
+1. Clique com o botão direito em cima do nome do banco de dados recem criado e selecione a opção nova consulta 'New Query'.
+2. Na nova janela que abrir, insira o seguinte codigo:
+```sql
+    CREATE TABLE Armas (
+        id_arma INT PRIMARY KEY IDENTITY(1,1),
+        nome_arma NVARCHAR(255) NOT NULL,
+        dano_arma INT NOT NULL,
+        tipo_arma NVARCHAR(255) NOT NULL,
+        danoCritico_arma INT NOT NULL,
+        taxaDisparo_arma FLOAT NOT NULL,
+        alcance_arma INT NOT NULL
+    );
+
+    CREATE TABLE Build (
+        id_build INT PRIMARY KEY IDENTITY(1,1),
+        nome_build NVARCHAR(255) NOT NULL,
+        descricao_build TEXT,
+        data_criacao DATE NOT NULL
+    );
+
+    CREATE TABLE Equipamentos (
+        id_equipamento INT PRIMARY KEY IDENTITY(1,1),
+        nome_equipamento NVARCHAR(255) NOT NULL,
+        categoria_equipamento NVARCHAR(255) NOT NULL,
+        atributoPrim_equipamento NVARCHAR(255) NOT NULL,
+        valorAtri_equipamento INT NOT NULL
+    );
+
+    CREATE TABLE Compoem (
+        id_build INT,
+        id_arma INT,
+        PRIMARY KEY (id_build, id_arma),
+        FOREIGN KEY (id_build) REFERENCES Build(id_build),
+        FOREIGN KEY (id_arma) REFERENCES Armas(id_arma)
+    );
+
+    CREATE TABLE Possue (
+        id_build INT,
+        id_equipamento INT,
+        PRIMARY KEY (id_build, id_equipamento),
+        FOREIGN KEY (id_build) REFERENCES Build(id_build),
+        FOREIGN KEY (id_equipamento) REFERENCES Equipamentos(id_equipamento)
+    );
+```
+3. Execute cada bloco, separadamente de preferencia em ordem, clicando em **Execute** ou pressionando **F5**.
+
+### 7. Inserir Dados nas Tabelas
+1. Abra a janela utilizada para criar as tabelas:
+
+2. Insira os seguintes comandos SQL para adicionar dados:
+
+```sql
+    -- Inserir Armas de Assalto
+    INSERT INTO Armas (nome_arma, dano_arma, tipo_arma, danoCritico_arma, taxaDisparo_arma, alcance_arma)
+    VALUES ('Rifle de Assalto Alpha', 45, 'Assalto', 90, 0.8, 300),
+        ('Rifle de Assalto Bravo', 50, 'Assalto', 100, 0.75, 320),
+        ('Rifle de Assalto Charlie', 48, 'Assalto', 95, 0.78, 310);
+
+    -- Inserir Armas de Sniper
+    INSERT INTO Armas (nome_arma, dano_arma, tipo_arma, danoCritico_arma, taxaDisparo_arma, alcance_arma)
+    VALUES ('Sniper Delta', 90, 'Sniper', 180, 0.5, 800),
+        ('Sniper Echo', 95, 'Sniper', 190, 0.45, 850),
+        ('Sniper Foxtrot', 92, 'Sniper', 185, 0.48, 820);
+
+    -- Inserir Armas de Submetralhadora
+    INSERT INTO Armas (nome_arma, dano_arma, tipo_arma, danoCritico_arma, taxaDisparo_arma, alcance_arma)
+    VALUES ('SMG Golf', 30, 'Submetralhadora', 60, 1.2, 200),
+        ('SMG Hotel', 32, 'Submetralhadora', 64, 1.15, 210),
+        ('SMG India', 31, 'Submetralhadora', 62, 1.18, 205);
+
+    -- Inserir Equipamentos de Defesa
+    INSERT INTO Equipamentos (nome_equipamento, categoria_equipamento, atributoPrim_equipamento, valorAtri_equipamento)
+    VALUES ('Colete Tatico', 'Defesa', 'Resistencia', 50),
+        ('Capacete Balistico', 'Defesa', 'Resistencia', 40),
+        ('Luvas de Combate', 'Defesa', 'Resistencia', 30);
+
+    -- Inserir Equipamentos de Ataque
+    INSERT INTO Equipamentos (nome_equipamento, categoria_equipamento, atributoPrim_equipamento, valorAtri_equipamento)
+    VALUES ('Luvas de Ataque', 'Ataque', 'Forca', 20),
+        ('Botas de Assalto', 'Ataque', 'Forca', 25),
+        ('Cinto de Municao', 'Ataque', 'Forca', 15);
+
+    -- Inserir Equipamentos de Suporte
+    INSERT INTO Equipamentos (nome_equipamento, categoria_equipamento, atributoPrim_equipamento, valorAtri_equipamento)
+    VALUES ('Kit Medico', 'Suporte', 'Cura', 30),
+        ('Mochila de Suprimentos', 'Suporte', 'Cura', 25),
+        ('Drone de Suporte', 'Suporte', 'Cura', 35);
+```
+
+3. Execute cada bloco, separadamente de preferencia em ordem, clicando em **Execute** ou pressionando **F5**.
+
+### 8. Confirmar a Inserção dos Dados
+1. Para verificar os dados inseridos, use o comando `SELECT`:
+
+   ```sql
+   SELECT * FROM Funcionarios;
+   ```
+
+2. Execute o comando para visualizar os registros da tabela `Funcionarios`
+
+
+
+
+
+Postgre:
+
+Aqui está o guia completo para configurar o PostgreSQL, criar um banco de dados e inserir dados, caso você prefira usar o PostgreSQL em vez do SQL Server.
+
+---
+
+## Guia Completo para Configurar o PostgreSQL, Criar um Banco de Dados e Inserir Dados
+
+### 1. Instalar o PostgreSQL
+1. Baixe o **PostgreSQL** no site oficial: [Baixar PostgreSQL](https://www.postgresql.org/download/).
+2. Escolha a versão para o seu sistema operacional e inicie o instalador.
+3. Durante a instalação:
+   - **Localização de instalação**: Escolha onde deseja instalar o PostgreSQL.
+   - **Senha do superusuário**: Defina uma senha para o usuário `postgres`, que é o administrador padrão.
+   - **Porta**: A porta padrão é 5432, mas você pode alterar se necessário.
+   - **Locale**: Geralmente pode ser deixado como padrão.
+4. Conclua a instalação.
+
+### 2. Iniciar o Servidor PostgreSQL
+1. O PostgreSQL geralmente inicia automaticamente. Você pode verificar o status do serviço:
+   - **No Windows**: Vá ao **Painel de Serviços** e procure por **PostgreSQL** para garantir que está em execução.
+   - **No Linux**: Use o comando `sudo service postgresql start`.
+2. Você também pode gerenciar o servidor usando o **pgAdmin** (instalado junto com o PostgreSQL), uma interface gráfica para administração.
+
+### 3. Instalar e Abrir o pgAdmin
+1. Abra o **pgAdmin**, que foi instalado junto com o PostgreSQL.
+2. Ao abrir o pgAdmin pela primeira vez, ele pedirá uma senha mestra para proteger as conexões. Defina uma senha que você possa lembrar.
+
+### 4. Conectar-se ao Servidor PostgreSQL no pgAdmin
+1. No painel esquerdo do pgAdmin, clique com o botão direito em **Servers** e escolha **Create > Server** para adicionar um novo servidor.
+2. Na janela de configuração:
+   - **Name (Nome)**: Insira um nome para identificar o servidor, como `ServidorLocal`.
+3. Na aba **Connection (Conexão)**:
+   - **Host name/address**: Digite `localhost` (ou o endereço IP do servidor).
+   - **Port**: A porta padrão é `5432`.
+   - **Username**: Insira `postgres`.
+   - **Password**: Digite a senha que você configurou durante a instalação.
+4. Clique em **Save** para salvar e conectar-se ao servidor.
+
+### 5. Criar um Novo Banco de Dados
+1. No painel esquerdo, expanda o servidor recém-criado.
+2. Clique com o botão direito em **Databases** e selecione **Create > Database**.
+3. Na janela de criação de banco de dados:
+   - **Database Name (Nome do Banco de Dados)**: Insira o nome desejado para o banco de dados, como `MinhaEmpresa`.
+   - **Owner (Proprietário)**: Deixe como `postgres` (ou escolha um usuário específico, se preferir).
+4. Clique em **Save** para criar o banco de dados.
+
+### 6. Criar as Tabela
+1. Clique com o botão direito em cima do nome do banco de dados recem criado e selecione a opção nova consulta 'New Query'.
+2. Na nova janela que abrir, insira o seguinte codigo:
+```sql
+    CREATE TABLE Armas (
+        id_arma INT PRIMARY KEY IDENTITY(1,1),
+        nome_arma NVARCHAR(255) NOT NULL,
+        dano_arma INT NOT NULL,
+        tipo_arma NVARCHAR(255) NOT NULL,
+        danoCritico_arma INT NOT NULL,
+        taxaDisparo_arma FLOAT NOT NULL,
+        alcance_arma INT NOT NULL
+    );
+
+    CREATE TABLE Build (
+        id_build INT PRIMARY KEY IDENTITY(1,1),
+        nome_build NVARCHAR(255) NOT NULL,
+        descricao_build TEXT,
+        data_criacao DATE NOT NULL
+    );
+
+    CREATE TABLE Equipamentos (
+        id_equipamento INT PRIMARY KEY IDENTITY(1,1),
+        nome_equipamento NVARCHAR(255) NOT NULL,
+        categoria_equipamento NVARCHAR(255) NOT NULL,
+        atributoPrim_equipamento NVARCHAR(255) NOT NULL,
+        valorAtri_equipamento INT NOT NULL
+    );
+
+    CREATE TABLE Compoem (
+        id_build INT,
+        id_arma INT,
+        PRIMARY KEY (id_build, id_arma),
+        FOREIGN KEY (id_build) REFERENCES Build(id_build),
+        FOREIGN KEY (id_arma) REFERENCES Armas(id_arma)
+    );
+
+    CREATE TABLE Possue (
+        id_build INT,
+        id_equipamento INT,
+        PRIMARY KEY (id_build, id_equipamento),
+        FOREIGN KEY (id_build) REFERENCES Build(id_build),
+        FOREIGN KEY (id_equipamento) REFERENCES Equipamentos(id_equipamento)
+    );
+```
+3. Execute cada bloco, separadamente de preferencia e em ordem, comando clicando no botão de **executar** (ícone de play) na barra de ferramentas.
+
+### 7. Inserir Dados nas Tabelas
+1. Abra a janela utilizada para criar as tabelas:
+
+2. Insira os seguintes comandos SQL para adicionar dados:
+
+```sql
+    -- Inserir Armas de Assalto
+    INSERT INTO Armas (nome_arma, dano_arma, tipo_arma, danoCritico_arma, taxaDisparo_arma, alcance_arma)
+    VALUES ('Rifle de Assalto Alpha', 45, 'Assalto', 90, 0.8, 300),
+        ('Rifle de Assalto Bravo', 50, 'Assalto', 100, 0.75, 320),
+        ('Rifle de Assalto Charlie', 48, 'Assalto', 95, 0.78, 310);
+
+    -- Inserir Armas de Sniper
+    INSERT INTO Armas (nome_arma, dano_arma, tipo_arma, danoCritico_arma, taxaDisparo_arma, alcance_arma)
+    VALUES ('Sniper Delta', 90, 'Sniper', 180, 0.5, 800),
+        ('Sniper Echo', 95, 'Sniper', 190, 0.45, 850),
+        ('Sniper Foxtrot', 92, 'Sniper', 185, 0.48, 820);
+
+    -- Inserir Armas de Submetralhadora
+    INSERT INTO Armas (nome_arma, dano_arma, tipo_arma, danoCritico_arma, taxaDisparo_arma, alcance_arma)
+    VALUES ('SMG Golf', 30, 'Submetralhadora', 60, 1.2, 200),
+        ('SMG Hotel', 32, 'Submetralhadora', 64, 1.15, 210),
+        ('SMG India', 31, 'Submetralhadora', 62, 1.18, 205);
+
+    -- Inserir Equipamentos de Defesa
+    INSERT INTO Equipamentos (nome_equipamento, categoria_equipamento, atributoPrim_equipamento, valorAtri_equipamento)
+    VALUES ('Colete Tatico', 'Defesa', 'Resistencia', 50),
+        ('Capacete Balastico', 'Defesa', 'Resistencia', 40),
+        ('Luvas de Combate', 'Defesa', 'Resistencia', 30);
+
+    -- Inserir Equipamentos de Ataque
+    INSERT INTO Equipamentos (nome_equipamento, categoria_equipamento, atributoPrim_equipamento, valorAtri_equipamento)
+    VALUES ('Luvas de Ataque', 'Ataque', 'Forca', 20),
+        ('Botas de Assalto', 'Ataque', 'Forca', 25),
+        ('Cinto de Municao', 'Ataque', 'Forca', 15);
+
+    -- Inserir Equipamentos de Suporte
+    INSERT INTO Equipamentos (nome_equipamento, categoria_equipamento, atributoPrim_equipamento, valorAtri_equipamento)
+    VALUES ('Kit Medico', 'Suporte', 'Cura', 30),
+        ('Mochila de Suprimentos', 'Suporte', 'Cura', 25),
+        ('Drone de Suporte', 'Suporte', 'Cura', 35);
+```
+
+3. Execute cada bloco, separadamente de preferencia e em ordem, comando clicando no botão de **executar** (ícone de play) na barra de ferramentas.
+
+### 8. Confirmar a Inserção dos Dados
+1. Para visualizar os dados, execute uma consulta `SELECT`:
+
+   ```sql
+   SELECT * FROM Funcionarios;
+   ```
+
+2. Execute a consulta para ver todos os registros da tabela `Funcionarios`.

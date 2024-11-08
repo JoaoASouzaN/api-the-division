@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { Build, builds } from '../models/builsModel';
+import { Build, builds } from '../models/buildsModel';
 
 const getAllBuilds = (req: Request, res: Response, next: NextFunction): void => {
   try {

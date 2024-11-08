@@ -7,7 +7,7 @@ async function createAndPopulateDb() {
             host: 'localhost',
             user: 'joao',
             password: '123456',
-            database: 'TheDivisionApi'
+            database: 'ApiTheDivision'
         }
     });
     
