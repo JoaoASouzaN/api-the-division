@@ -4,7 +4,12 @@ import logger from '../config/logger';
 
 const getAllArmas = (req: Request, res: Response, next: NextFunction): void => {
   try {
-    res.json(armas);
+    
+    res.status(200).json({  // Feedback de sucesso
+      message: 'Armas encontradas!',
+      Armas: armas
+    });
+    
   } catch (error) {
     logger.error((error as Error).message);
     next(error);
@@ -18,7 +23,11 @@ const getArmaById = (req: Request, res: Response, next: NextFunction): void => {
       res.status(404).json({ error: 'Arma não encontrada' });
       return;
     }
-    res.json(arma);
+    res.status(200).json({  // Feedback de sucesso
+      message: 'Arma encontradas!',
+      Armas: armas
+    });
+
   } catch (error) {
     logger.error((error as Error).message);
     next(error);
@@ -35,7 +44,12 @@ const createArma = (req: Request, res: Response, next: NextFunction): void => {
 
     const newArma: Arma = { id: armas.length + 1, nome, dano, tipo, danoCritico, taxaDisparo, alcance };
     armas.push(newArma);
-    res.status(201).json(newArma);
+
+    res.status(201).json({  // Feedback de sucesso
+      message: 'Nova arma adicionada!',
+      Armas: newArma
+    });
+
   } catch (error) {
     logger.error((error as Error).message);
     next(error);
@@ -62,7 +76,12 @@ const updateArma = (req: Request, res: Response, next: NextFunction): void => {
     arma.danoCritico = danoCritico;
     arma.taxaDisparo = taxaDisparo;
     arma.alcance = alcance;
-    res.json(arma);
+
+    res.status(200).json({  // Feedback de sucesso
+      message: 'Armas atualizada!',
+      Armas: arma
+    });
+
   } catch (error) {
     logger.error((error as Error).message);
     next(error);
@@ -78,7 +97,11 @@ const deleteArma = (req: Request, res: Response, next: NextFunction): void => {
     }
 
     armas.splice(armaIndex, 1);
-    res.status(204).send();
+
+    res.status(204).send({  // Feedback de sucesso
+      message: 'Arma deletada!',
+    });
+
   } catch (error) {
     logger.error((error as Error).message);
     next(error);

@@ -1,3 +1,6 @@
+npm install
+npm run dev
+
 Harpa
 Para criar um servidor no SQL Server e conectar-se a ele utilizando o SQL Server Management Studio (SSMS), siga este passo a passo detalhado:
 

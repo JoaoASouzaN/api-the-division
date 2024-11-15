@@ -3,7 +3,11 @@ import { Build, builds } from '../models/buildsModel';
 
 const getAllBuilds = (req: Request, res: Response, next: NextFunction): void => {
   try {
-    res.json(builds);
+    
+    res.status(200).json({  // Feedback de sucesso
+      message: 'Build encontradas!',
+      build: builds
+    });
   } catch (error) {
     next(error); // Chama o middleware de erro
   }
@@ -13,10 +17,13 @@ const getBuildById = (req: Request, res: Response, next: NextFunction): void => 
   try {
     const build = builds.find(b => b.id === parseInt(req.params.id));
     if (!build) {
-      res.status(404).json({ error: 'Build não encontrada' });
+      res.status(404).json({ error: 'Build não encontrada' }); // Feedback de build não encontrada
       return;
     }
-    res.json(build);
+    res.status(200).json({
+      message: 'Build encontrada com sucesso', // Feedback possitivo para busca da build
+      build: build
+    });
   } catch (error) {
     next(error);
   }
@@ -26,7 +33,7 @@ const searchBuilds = (req: Request, res: Response, next: NextFunction): void => 
   try {
     const { nome } = req.query as { nome?: string };
     if (!nome) {
-      res.status(400).json({ error: 'É necessário fornecer um nome para a busca' });
+      res.status(400).json({ error: 'É necessário fornecer um nome para a busca' }); // Feedback de preenchimento incompleto
       return;
     }
 
@@ -35,10 +42,13 @@ const searchBuilds = (req: Request, res: Response, next: NextFunction): void => 
     );
 
     if (resultados.length === 0) {
-      res.status(404).json({ error: 'Nenhum build encontrado com o nome fornecido' });
+      res.status(404).json({ error: 'Nenhum build encontrado com o nome fornecido' }); // Feedback negativo para a busca pela build
       return;
     }
-
+    res.status(200).json({
+      message: 'Build encontrada com sucesso', // Feedback possitivo para a busca pela build
+      Resultado: resultados
+    });
     res.json(resultados);
   } catch (error) {
     next(error);
@@ -55,7 +65,11 @@ const createBuild = (req: Request, res: Response, next: NextFunction): void => {
 
     const newBuild: Build = { id: builds.length + 1, nome, equipamentos, armas, modificacoes };
     builds.push(newBuild);
-    res.status(201).json(newBuild);
+
+    res.status(201).json({
+      message: 'Build criada com sucesso',  // Feedback possitivo para a criacao da build
+      build: newBuild
+    });
   } catch (error) {
     next(error);
   }
@@ -65,13 +79,13 @@ const updateBuild = (req: Request, res: Response, next: NextFunction): void => {
   try {
     const build = builds.find(b => b.id === parseInt(req.params.id));
     if (!build) {
-      res.status(404).json({ error: 'Build não encontrada' });
+      res.status(404).json({ error: 'Build não encontrada' }); // Feedback para a build não encontrada
       return;
     }
 
     const { nome, equipamentos, armas, modificacoes } = req.body as Build;
     if (!nome || !equipamentos || !armas || !modificacoes) {
-      res.status(400).json({ error: 'Todos os campos são obrigatórios' });
+      res.status(400).json({ error: 'Todos os campos são obrigatórios' }); // Feedback para preenchimento incompleto
       return;
     }
 
@@ -79,7 +93,12 @@ const updateBuild = (req: Request, res: Response, next: NextFunction): void => {
     build.equipamentos = equipamentos;
     build.armas = armas;
     build.modificacoes = modificacoes;
-    res.json(build);
+
+    res.status(200).json({
+      message: 'Build atualizada com sucesso', // Feedback para sucesso ao atualizar a build
+      build: build
+    });
+
   } catch (error) {
     next(error);
   }
@@ -89,12 +108,15 @@ const deleteBuild = (req: Request, res: Response, next: NextFunction): void => {
   try {
     const buildIndex = builds.findIndex(b => b.id === parseInt(req.params.id));
     if (buildIndex === -1) {
-      res.status(404).json({ error: 'Build não encontrada' });
+      res.status(404).json({ error: 'Build não encontrada' }); // Feedback build não encontrada
       return;
     }
 
     builds.splice(buildIndex, 1);
-    res.status(204).send();
+    
+    res.status(204).send({
+      message: 'Build deletada com sucesso', // Feedback de sucesso ao deletar a build
+    });
   } catch (error) {
     next(error);
   }
