@@ -4,7 +4,11 @@ import logger from '../config/logger';
 
 const getAllEquipamentos = (req: Request, res: Response, next: NextFunction): void => {
   try {
-    res.json(equipamentos);
+    res.status(200).json({  // Feedback de sucesso
+      message: 'Equipamentos encontrados!',
+      Equipamentos: equipamentos
+    });
+
   } catch (error) {
     logger.error((error as Error).message);
     next(error);
@@ -18,7 +22,11 @@ const getEquipamentoById = (req: Request, res: Response, next: NextFunction): vo
       res.status(404).json({ error: 'Equipamento não encontrado' });
       return;
     }
-    res.json(equipamento);
+    res.status(200).json({  // Feedback de sucesso
+      message: 'Equipamento encontrado!',
+      Equipamento: equipamento
+    });
+
   } catch (error) {
     logger.error((error as Error).message);
     next(error);
@@ -35,7 +43,11 @@ const createEquipamento = (req: Request, res: Response, next: NextFunction): voi
 
     const newEquipamento: Equipamento = { id: equipamentos.length + 1, nome, categoria, atributoPrim, valorAtri };
     equipamentos.push(newEquipamento);
-    res.status(201).json(newEquipamento);
+    res.status(201).json({  // Feedback de sucesso
+      message: 'Equipamento adicinado!',
+      Equipamento: newEquipamento
+    });
+
   } catch (error) {
     logger.error((error as Error).message);
     next(error);
@@ -60,7 +72,11 @@ const updateEquipamento = (req: Request, res: Response, next: NextFunction): voi
     equipamento.categoria = categoria;
     equipamento.atributoPrim = atributoPrim;
     equipamento.valorAtri = valorAtri;
-    res.json(equipamento);
+    res.status(200).json({  // Feedback de sucesso
+      message: 'Equipamento atualizado!',
+      Equipamento: equipamento
+    });
+
   } catch (error) {
     logger.error((error as Error).message);
     next(error);
@@ -76,7 +92,10 @@ const deleteEquipamento = (req: Request, res: Response, next: NextFunction): voi
     }
 
     equipamentos.splice(equipamentoIndex, 1);
-    res.status(204).send();
+    res.status(204).send({  // Feedback de sucesso
+      message: 'Equipamento deletado!',
+    });
+
   } catch (error) {
     logger.error((error as Error).message);
     next(error);
