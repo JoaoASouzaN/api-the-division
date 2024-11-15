@@ -332,3 +332,7 @@ Aqui está o guia completo para configurar o PostgreSQL, criar um banco de dados
    ```
 
 2. Execute a consulta para ver todos os registros da tabela `Funcionarios`.
+
+Iniciar a API:
+    npm install
+    pm run dev
