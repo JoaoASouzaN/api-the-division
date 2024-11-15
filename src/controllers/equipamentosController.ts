@@ -10,7 +10,7 @@ const getAllEquipamentos = (req: Request, res: Response, next: NextFunction): vo
     });
 
   } catch (error) {
-    logger.error((error as Error).message);
+    logger.error((error as Error).message); // Lança o erro
     next(error);
   }
 };
@@ -28,7 +28,7 @@ const getEquipamentoById = (req: Request, res: Response, next: NextFunction): vo
     });
 
   } catch (error) {
-    logger.error((error as Error).message);
+    logger.error((error as Error).message); // Lança o erro
     next(error);
   }
 };
@@ -49,7 +49,7 @@ const createEquipamento = (req: Request, res: Response, next: NextFunction): voi
     });
 
   } catch (error) {
-    logger.error((error as Error).message);
+    logger.error((error as Error).message); // Lança o erro
     next(error);
   }
 };
@@ -58,13 +58,13 @@ const updateEquipamento = (req: Request, res: Response, next: NextFunction): voi
   try {
     const equipamento = equipamentos.find(e => e.id === parseInt(req.params.id));
     if (!equipamento) {
-      res.status(404).json({ error: 'Equipamento não encontrado' });
+      res.status(404).json({ error: 'Equipamento não encontrado' }); // Feedback de operação executada, mas sem sucesso ao encontrar os equipamentos especificados
       return;
     }
 
     const { nome, categoria, atributoPrim, valorAtri } = req.body as Equipamento;
     if (!nome || !categoria || !atributoPrim || !valorAtri) {
-      res.status(400).json({ error: 'Todos os campos são obrigatórios' });
+      res.status(400).json({ error: 'Todos os campos são obrigatórios' });  // Feedback de preenchimento incompleto dos campos
       return;
     }
 
@@ -78,7 +78,7 @@ const updateEquipamento = (req: Request, res: Response, next: NextFunction): voi
     });
 
   } catch (error) {
-    logger.error((error as Error).message);
+    logger.error((error as Error).message); // Lança o erro
     next(error);
   }
 };
@@ -87,7 +87,7 @@ const deleteEquipamento = (req: Request, res: Response, next: NextFunction): voi
   try {
     const equipamentoIndex = equipamentos.findIndex(e => e.id === parseInt(req.params.id));
     if (equipamentoIndex === -1) {
-      res.status(404).json({ error: 'Equipamento não encontrado' });
+      res.status(404).json({ error: 'Equipamento não encontrado' }); // Feedback de rquisisão feita, mas falha ao encontrar
       return;
     }
 
@@ -97,7 +97,7 @@ const deleteEquipamento = (req: Request, res: Response, next: NextFunction): voi
     });
 
   } catch (error) {
-    logger.error((error as Error).message);
+    logger.error((error as Error).message); // Lança o erro
     next(error);
   }
 };

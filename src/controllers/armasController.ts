@@ -12,7 +12,7 @@ const getAllArmas = (req: Request, res: Response, next: NextFunction): void => {
     
   } catch (error) {
     logger.error((error as Error).message);
-    next(error);
+    next(error); // Lança o erro
   }
 };
 
@@ -20,7 +20,7 @@ const getArmaById = (req: Request, res: Response, next: NextFunction): void => {
   try {
     const arma = armas.find(a => a.id === parseInt(req.params.id));
     if (!arma) {
-      res.status(404).json({ error: 'Arma não encontrada' });
+      res.status(404).json({ error: 'Arma não encontrada' }); // Feedback de arma não encontrada
       return;
     }
     res.status(200).json({  // Feedback de sucesso
@@ -30,7 +30,7 @@ const getArmaById = (req: Request, res: Response, next: NextFunction): void => {
 
   } catch (error) {
     logger.error((error as Error).message);
-    next(error);
+    next(error); // Lança o erro
   }
 };
 
@@ -38,7 +38,7 @@ const createArma = (req: Request, res: Response, next: NextFunction): void => {
   try {
     const { nome, dano, tipo, danoCritico, taxaDisparo, alcance } = req.body as Arma;
     if (!nome || !dano || !tipo || !danoCritico || !taxaDisparo || !alcance) {
-      res.status(400).json({ error: 'Todos os campos são obrigatórios' });
+      res.status(400).json({ error: 'Todos os campos são obrigatórios' }); // Feedback de preenchimento incompleto
       return;
     }
 
@@ -52,7 +52,7 @@ const createArma = (req: Request, res: Response, next: NextFunction): void => {
 
   } catch (error) {
     logger.error((error as Error).message);
-    next(error);
+    next(error); // Lança o erro
   }
 };
 
@@ -60,13 +60,13 @@ const updateArma = (req: Request, res: Response, next: NextFunction): void => {
   try {
     const arma = armas.find(a => a.id === parseInt(req.params.id));
     if (!arma) {
-      res.status(404).json({ error: 'Arma não encontrada' });
+      res.status(404).json({ error: 'Arma não encontrada' }); // Feedback de requisiçao executada mas falha ao encontrar a arma
       return;
     }
 
     const { nome, dano, tipo, danoCritico, taxaDisparo, alcance } = req.body as Arma;
     if (!nome || !dano || !tipo || !danoCritico || !taxaDisparo || !alcance) {
-      res.status(400).json({ error: 'Todos os campos são obrigatórios' });
+      res.status(400).json({ error: 'Todos os campos são obrigatórios' }); // Feedback de preenchimento incompleto
       return;
     }
 
@@ -84,7 +84,7 @@ const updateArma = (req: Request, res: Response, next: NextFunction): void => {
 
   } catch (error) {
     logger.error((error as Error).message);
-    next(error);
+    next(error); // Lança o erro
   }
 };
 
@@ -92,7 +92,7 @@ const deleteArma = (req: Request, res: Response, next: NextFunction): void => {
   try {
     const armaIndex = armas.findIndex(a => a.id === parseInt(req.params.id));
     if (armaIndex === -1) {
-      res.status(404).json({ error: 'Arma não encontrada' });
+      res.status(404).json({ error: 'Arma não encontrada' }); // Feedback de requisição feita mas falha ao encontrar a arma
       return;
     }
 
@@ -104,7 +104,7 @@ const deleteArma = (req: Request, res: Response, next: NextFunction): void => {
 
   } catch (error) {
     logger.error((error as Error).message);
-    next(error);
+    next(error); // Lança o erro
   }
 };
 

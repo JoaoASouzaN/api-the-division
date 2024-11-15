@@ -3,6 +3,7 @@ import { getAllArmas, getArmaById, createArma, updateArma, deleteArma } from '..
 
 const router = express.Router();
 
+// Definindo as rotas para acessar as armas
 router.get('/', getAllArmas as express.RequestHandler);
 router.get('/:id', getArmaById as express.RequestHandler);
 router.post('/', createArma as express.RequestHandler);

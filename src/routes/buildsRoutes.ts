@@ -3,7 +3,7 @@ import { getAllBuilds, getBuildById, searchBuilds, createBuild, updateBuild, del
 
 const router = express.Router();
 
-// Definindo as rotas com os controladores corretamente
+// Definindo as rotas para acessar as builds
 router.get('/', getAllBuilds as express.RequestHandler);
 router.get('/:id', getBuildById as express.RequestHandler);
 router.get('/search', searchBuilds as express.RequestHandler);

@@ -25,7 +25,7 @@ const getBuildById = (req: Request, res: Response, next: NextFunction): void => 
       build: build
     });
   } catch (error) {
-    next(error);
+    next(error);  // Lança o erro
   }
 };
 
@@ -51,7 +51,7 @@ const searchBuilds = (req: Request, res: Response, next: NextFunction): void => 
     });
     res.json(resultados);
   } catch (error) {
-    next(error);
+    next(error);  // Lança o erro
   }
 };
 
@@ -59,7 +59,7 @@ const createBuild = (req: Request, res: Response, next: NextFunction): void => {
   try {
     const { nome, equipamentos, armas, modificacoes } = req.body as Build;
     if (!nome || !equipamentos || !armas || !modificacoes) {
-      res.status(400).json({ error: 'Todos os campos são obrigatórios' });
+      res.status(400).json({ error: 'Todos os campos são obrigatórios' });  // Feedback de preenchimento incompleto
       return;
     }
 
@@ -71,7 +71,7 @@ const createBuild = (req: Request, res: Response, next: NextFunction): void => {
       build: newBuild
     });
   } catch (error) {
-    next(error);
+    next(error); // Lança o erro
   }
 };
 
@@ -100,7 +100,7 @@ const updateBuild = (req: Request, res: Response, next: NextFunction): void => {
     });
 
   } catch (error) {
-    next(error);
+    next(error); // Lança o erro
   }
 };
 
@@ -118,7 +118,7 @@ const deleteBuild = (req: Request, res: Response, next: NextFunction): void => {
       message: 'Build deletada com sucesso', // Feedback de sucesso ao deletar a build
     });
   } catch (error) {
-    next(error);
+    next(error); // Lança o erro
   }
 };
 

@@ -3,6 +3,7 @@ import { getAllEquipamentos, getEquipamentoById, createEquipamento, updateEquipa
 
 const router = express.Router();
 
+// Definindo as rotas para acessar as equipamentos
 router.get('/', getAllEquipamentos as express.RequestHandler);
 router.get('/:id', getEquipamentoById as express.RequestHandler);
 router.post('/', createEquipamento as express.RequestHandler);
