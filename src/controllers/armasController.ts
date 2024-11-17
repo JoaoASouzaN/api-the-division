@@ -1,13 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
-import { Arma, armas } from '../models/armasModel';
+import knex from '../config/db';
 import logger from '../config/logger';
 
-const getAllArmas = (req: Request, res: Response, next: NextFunction): void => {
+const getAllArmas = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+
   try {
-    
+    const { page = 1, limit = 5 } = req.query;
+    const offset = (Number(page) - 1) * Number(limit);
+    const armas = await knex('Armas').limit(Number(limit)).offset(offset);
     res.status(200).json({  // Feedback de sucesso
       message: 'Armas encontradas!',
-      Armas: armas
+      armas
     });
     
   } catch (error) {
@@ -16,16 +19,16 @@ const getAllArmas = (req: Request, res: Response, next: NextFunction): void => {
   }
 };
 
-const getArmaById = (req: Request, res: Response, next: NextFunction): void => {
+const getArmaById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const arma = armas.find(a => a.id === parseInt(req.params.id));
+    const arma = await knex('Armas').where({ id: req.params.id }).first();
     if (!arma) {
       res.status(404).json({ error: 'Arma não encontrada' }); // Feedback de arma não encontrada
       return;
     }
     res.status(200).json({  // Feedback de sucesso
       message: 'Arma encontradas!',
-      Armas: armas
+      arma
     });
 
   } catch (error) {
@@ -34,21 +37,20 @@ const getArmaById = (req: Request, res: Response, next: NextFunction): void => {
   }
 };
 
-const createArma = (req: Request, res: Response, next: NextFunction): void => {
+const createArma = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { nome, dano, tipo, danoCritico, taxaDisparo, alcance } = req.body as Arma;
+    const { nome, dano, tipo, danoCritico, taxaDisparo, alcance } = req.body;
     if (!nome || !dano || !tipo || !danoCritico || !taxaDisparo || !alcance) {
       res.status(400).json({ error: 'Todos os campos são obrigatórios' }); // Feedback de preenchimento incompleto
       return;
     }
 
-    const newArma: Arma = { id: armas.length + 1, nome, dano, tipo, danoCritico, taxaDisparo, alcance };
-    armas.push(newArma);
+const [newArma] = await knex('Armas').insert({ nome, dano, tipo, danoCritico, taxaDisparo, alcance }).returning('*');
 
-    res.status(201).json({  // Feedback de sucesso
-      message: 'Nova arma adicionada!',
-      Armas: newArma
-    });
+  res.status(201).json({  // Feedback de sucesso
+    message: 'Nova arma adicionada!',
+    Armas: newArma
+  });
 
   } catch (error) {
     logger.error((error as Error).message);
@@ -56,19 +58,20 @@ const createArma = (req: Request, res: Response, next: NextFunction): void => {
   }
 };
 
-const updateArma = (req: Request, res: Response, next: NextFunction): void => {
+const updateArma = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const arma = armas.find(a => a.id === parseInt(req.params.id));
+    const { nome, dano, tipo, danoCritico, taxaDisparo, alcance } = req.body;
+    const arma = await knex('Armas').where({ id: req.params.id }).first();
     if (!arma) {
       res.status(404).json({ error: 'Arma não encontrada' }); // Feedback de requisiçao executada mas falha ao encontrar a arma
       return;
     }
 
-    const { nome, dano, tipo, danoCritico, taxaDisparo, alcance } = req.body as Arma;
-    if (!nome || !dano || !tipo || !danoCritico || !taxaDisparo || !alcance) {
-      res.status(400).json({ error: 'Todos os campos são obrigatórios' }); // Feedback de preenchimento incompleto
-      return;
-    }
+    const updatedArma = await knex('Armas').where({ id: req.params.id }).update({ nome, dano, tipo, danoCritico, taxaDisparo, alcance }).returning('*');
+      res.status(200).json({ // Feedback de preenchimento incompleto
+      message: 'Arma atualizada!',
+      arma: updatedArma
+    });
 
     arma.nome = nome;
     arma.dano = dano;
@@ -88,16 +91,35 @@ const updateArma = (req: Request, res: Response, next: NextFunction): void => {
   }
 };
 
-const deleteArma = (req: Request, res: Response, next: NextFunction): void => {
+const patchArma = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const armaIndex = armas.findIndex(a => a.id === parseInt(req.params.id));
-    if (armaIndex === -1) {
+    const updates = req.body;
+    const arma = await knex('Armas').where({ id: req.params.id }).first();
+    if (!arma) {
+      res.status(404).json({ error: 'Arma não encontrada' });
+      return;
+    }
+
+    const updatedArma = await knex('Armas').where({ id: req.params.id }).update(updates).returning('*');
+    res.status(200).json({
+      message: 'Arma atualizada!',
+      arma: updatedArma
+    });
+  } catch (error) {
+    logger.error((error as Error).message);
+    next(error);
+  }
+};
+
+const deleteArma = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const arma = await knex('Armas').where({ id: req.params.id }).first();
+    if (!arma) {
       res.status(404).json({ error: 'Arma não encontrada' }); // Feedback de requisição feita mas falha ao encontrar a arma
       return;
     }
 
-    armas.splice(armaIndex, 1);
-
+    await knex('Armas').where({ id: req.params.id }).del();
     res.status(204).send({  // Feedback de sucesso
       message: 'Arma deletada!',
     });
@@ -108,4 +130,4 @@ const deleteArma = (req: Request, res: Response, next: NextFunction): void => {
   }
 };
 
-export { getAllArmas, getArmaById, createArma, updateArma, deleteArma };
+export { getAllArmas, getArmaById, createArma, updateArma, patchArma, deleteArma };
