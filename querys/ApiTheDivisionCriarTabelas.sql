@@ -59,18 +59,18 @@ VALUES ('SMG Golf', 30, 'Submetralhadora', 60, 1.2, 200),
 
 -- Inserir Equipamentos de Defesa
 INSERT INTO Equipamentos (nome_equipamento, categoria_equipamento, atributoPrim_equipamento, valorAtri_equipamento)
-VALUES ('Colete Tático', 'Defesa', 'Resistência', 50),
-       ('Capacete Balístico', 'Defesa', 'Resistência', 40),
-       ('Luvas de Combate', 'Defesa', 'Resistência', 30);
+VALUES ('Colete Tatico', 'Defesa', 'Resistencia', 50),
+       ('Capacete Balistico', 'Defesa', 'Resistencia', 40),
+       ('Luvas de Combate', 'Defesa', 'Resistencia', 30);
 
 -- Inserir Equipamentos de Ataque
 INSERT INTO Equipamentos (nome_equipamento, categoria_equipamento, atributoPrim_equipamento, valorAtri_equipamento)
-VALUES ('Luvas de Ataque', 'Ataque', 'Força', 20),
-       ('Botas de Assalto', 'Ataque', 'Força', 25),
-       ('Cinto de Munição', 'Ataque', 'Força', 15);
+VALUES ('Luvas de Ataque', 'Ataque', 'Forca', 20),
+       ('Botas de Assalto', 'Ataque', 'Forca', 25),
+       ('Cinto de Municao', 'Ataque', 'Forca', 15);
 
 -- Inserir Equipamentos de Suporte
 INSERT INTO Equipamentos (nome_equipamento, categoria_equipamento, atributoPrim_equipamento, valorAtri_equipamento)
-VALUES ('Kit Médico', 'Suporte', 'Cura', 30),
+VALUES ('Kit Medico', 'Suporte', 'Cura', 30),
        ('Mochila de Suprimentos', 'Suporte', 'Cura', 25),
        ('Drone de Suporte', 'Suporte', 'Cura', 35);

@@ -5,21 +5,29 @@ dotenv.config();
 
 const config: { [key: string]: Knex.Config } = {
   development: {
-    client: 'mysql2',
+    client: 'mssql',
     connection: {
-      host: process.env.DB_HOST,
+      server: process.env.DB_HOST,
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
+      options: {
+        encrypt: false, // Defina como true se precisar de criptografia
+        enableArithAbort: true,
+      },
     },
   },
   production: {
-    client: 'mysql2',
+    client: 'mssql',
     connection: {
-      host: process.env.DB_HOST,
+      server: process.env.DB_HOST,
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
+      options: {
+        encrypt: false,
+        enableArithAbort: true,
+      },
     },
   },
 };

@@ -8,6 +8,10 @@ import equipamentosRoutes from './routes/equipamentosRoutes';
 const app: Application = express();
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.send('API is running');
+});
+
 // Rotas
 app.use('/builds', buildsRoutes);
 app.use('/armas', armasRoutes);
