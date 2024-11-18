@@ -31,32 +31,6 @@ const getBuildById = (req: Request, res: Response, next: NextFunction): void => 
   }
 };
 
-const searchBuilds = (req: Request, res: Response, next: NextFunction): void => {
-  try {
-    const { nome } = req.query as { nome?: string };
-    if (!nome) {
-      res.status(400).json({ error: 'É necessário fornecer um nome para a busca' }); // Feedback de preenchimento incompleto
-      return;
-    }
-
-    const resultados = builds.filter(build =>
-      build.nome.toLowerCase().includes(nome.toLowerCase())
-    );
-
-    if (resultados.length === 0) {
-      res.status(404).json({ error: 'Nenhum build encontrado com o nome fornecido' }); // Feedback negativo para a busca pela build
-      return;
-    }
-    res.status(200).json({
-      message: 'Build encontrada com sucesso', // Feedback possitivo para a busca pela build
-      Resultado: resultados
-    });
-    res.json(resultados);
-  } catch (error) {
-    next(error);
-  }
-};
-
 const createBuild = (req: Request, res: Response, next: NextFunction): void => {
   try {
     const { nome, equipamentos, armas, modificacoes } = req.body as Build;
@@ -151,7 +125,7 @@ const deleteBuild = (req: Request, res: Response, next: NextFunction): void => {
   }
 };
 
-export { getAllBuilds, getBuildById, searchBuilds, createBuild, updateBuild, patchBuild, deleteBuild };
+export { getAllBuilds, getBuildById, createBuild, updateBuild, patchBuild, deleteBuild };
 
 // Para o banco
 
