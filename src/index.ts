@@ -21,7 +21,7 @@ const db = knex(config.development);
 const app: Application = express();
 app.use(express.json());
 
-db.select('*').from('sua_tabela')
+db.select('*').from('apithedivision')
   .then(data => {
     console.log(data);
   })
@@ -37,6 +37,7 @@ app.use('/equipamentos', equipamentosRoutes);
 // Middleware de erro
 app.use(errorHandler);
 
+// Feedback backend rodando
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   logger.info(`Server running on port ${port}`);
