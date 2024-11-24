@@ -5,9 +5,14 @@ import logger from './config/logger';
 import errorHandler from './middlewares/errorHandler';
 
 // Configurar as rotas
-import buildsRoutes from './routes/buildsRoutes';
-import armasRoutes from './routes/armasRoutes';
-import equipamentosRoutes from './routes/equipamentosRoutes';
+import armasRoutes from './routes/rotaArma';
+import buildsRoutes from './routes/rotaBuild';
+import equipamentosRoutes from './routes/rotaEquipamento';
+
+// Configurar as rotas de teste
+import armasTesteRoutes from './routes/rotaTesteArma';
+import buildsTesteRoutes from './routes/rotaTesteBuild';
+import equipamentosTesteRoutes from './routes/rotaTesteEquipamento';
 
 // Configurar a conexão e dados de aceesso o banco
 import knex from 'knex';
@@ -35,6 +40,11 @@ app.get('/test-db', async (req: Request, res: Response) => {
 app.use('/builds', buildsRoutes);
 app.use('/armas', armasRoutes);
 app.use('/equipamentos', equipamentosRoutes);
+
+// Rotas teste
+app.use('/armasTeste', armasTesteRoutes);
+app.use('/buildsTeste', buildsTesteRoutes);
+app.use('/equipamentosTeste', equipamentosTesteRoutes);
 
 // Middleware de erro
 app.use(errorHandler);
