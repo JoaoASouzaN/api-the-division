@@ -1,5 +1,4 @@
 // Controladore para testes e execução de dados em loco
-
 import { Request, Response, NextFunction } from 'express';
 import { Equipamento, equipamentos } from '../models/equipamentosModel';
 import logger from '../config/logger';
@@ -13,7 +12,7 @@ const getAllEquipamentos = (req: Request, res: Response, next: NextFunction): vo
 
   } catch (error) {
     logger.error((error as Error).message);
-    next(error);
+    next(error); 
   }
 };
 

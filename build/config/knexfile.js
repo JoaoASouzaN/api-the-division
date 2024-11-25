@@ -1,23 +1,19 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const config = {
     development: {
-        client: 'pg',
+        client: 'mysql2',
         connection: {
-            host: '127.0.0.1',
-            user: 'your_database_user',
-            password: 'your_database_password',
-            database: 'your_database_name',
-        },
-    },
-    production: {
-        client: 'pg',
-        connection: {
-            host: 'your_production_host',
-            user: 'your_production_user',
-            password: 'your_production_password',
-            database: 'your_production_database',
-        },
-    },
+            host: process.env.DB_HOST,
+            user: process.env.DB_USER,
+            password: process.env.DB_PASSWORD,
+            database: process.env.DB_NAME
+        }
+    }
 };
 exports.default = config;
