@@ -14,4 +14,4 @@ interface Arma {
     // Adicione mais armas conforme necessário
   ];
   
-  export { Arma, armas };  
+  export { Arma, armas }; 

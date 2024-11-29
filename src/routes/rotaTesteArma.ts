@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllArmas, getArmaById, createArma, updateArma, deleteArma, patchArma } from '../controllers/armasController';
+import { getAllArmas, getArmaById, createArma, updateArma, deleteArma, patchArma } from '../controllers/armaTesteControlador';
 
 const router = express.Router();
 

@@ -1,6 +1,6 @@
 // Controladore para testes e execução de dados em loco
 import { Request, Response, NextFunction } from 'express';
-import { Build, builds } from '../models/buildsModel';
+import { Build, builds } from '../models/buildsTeste';
 
 const getAllBuilds = (req: Request, res: Response, next: NextFunction): void => {
   try {
