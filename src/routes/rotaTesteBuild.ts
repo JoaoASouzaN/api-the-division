@@ -1,5 +1,5 @@
 import express from 'express';
-import { getAllBuilds, getBuildById, createBuild, updateBuild, deleteBuild, patchBuild } from '../controllers/buildsController';
+import { getAllBuilds, getBuildById, createBuild, updateBuild, deleteBuild, patchBuild } from '../controllers/buildTesteControlador';
 
 const router = express.Router();
 

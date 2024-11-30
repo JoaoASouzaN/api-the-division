@@ -1,4 +1,5 @@
 "use strict";
+// Para o banco
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -13,13 +14,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteArma = exports.patchArma = exports.updateArma = exports.createArma = exports.getArmaById = exports.getAllArmas = void 0;
-const db_1 = __importDefault(require("../config/db"));
+const knex_1 = __importDefault(require("knex"));
+const knexfile_1 = __importDefault(require("../config/knexfile"));
 const logger_1 = __importDefault(require("../config/logger"));
+// Configurar a conexão com o banco de dados
+const db = (0, knex_1.default)(knexfile_1.default.development);
 const getAllArmas = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { page = 1, limit = 5 } = req.query;
         const offset = (Number(page) - 1) * Number(limit);
-        const armas = yield (0, db_1.default)('Armas').limit(Number(limit)).offset(offset);
+        const armas = yield (0, knex_1.default)('Armas').limit(Number(limit)).offset(offset);
         res.status(200).json({
             message: 'Armas encontradas!',
             armas
@@ -33,7 +37,7 @@ const getAllArmas = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
 exports.getAllArmas = getAllArmas;
 const getArmaById = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const arma = yield (0, db_1.default)('Armas').where({ id: req.params.id }).first();
+        const arma = yield (0, knex_1.default)('Armas').where({ id: req.params.id }).first();
         if (!arma) {
             res.status(404).json({ error: 'Arma não encontrada' }); // Feedback de arma não encontrada
             return;
@@ -56,7 +60,7 @@ const createArma = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
             res.status(400).json({ error: 'Todos os campos são obrigatórios' }); // Feedback de preenchimento incompleto
             return;
         }
-        const [newArma] = yield (0, db_1.default)('Armas').insert({ nome, dano, tipo, danoCritico, taxaDisparo, alcance }).returning('*');
+        const [newArma] = yield (0, knex_1.default)('Armas').insert({ nome, dano, tipo, danoCritico, taxaDisparo, alcance }).returning('*');
         res.status(201).json({
             message: 'Nova arma adicionada!',
             Armas: newArma
@@ -71,12 +75,12 @@ exports.createArma = createArma;
 const updateArma = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { nome, dano, tipo, danoCritico, taxaDisparo, alcance } = req.body;
-        const arma = yield (0, db_1.default)('Armas').where({ id: req.params.id }).first();
+        const arma = yield (0, knex_1.default)('Armas').where({ id: req.params.id }).first();
         if (!arma) {
             res.status(404).json({ error: 'Arma não encontrada' }); // Feedback de requisiçao executada mas falha ao encontrar a arma
             return;
         }
-        const updatedArma = yield (0, db_1.default)('Armas').where({ id: req.params.id }).update({ nome, dano, tipo, danoCritico, taxaDisparo, alcance }).returning('*');
+        const updatedArma = yield (0, knex_1.default)('Armas').where({ id: req.params.id }).update({ nome, dano, tipo, danoCritico, taxaDisparo, alcance }).returning('*');
         res.status(200).json({
             message: 'Arma atualizada!',
             arma: updatedArma
@@ -101,12 +105,12 @@ exports.updateArma = updateArma;
 const patchArma = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const updates = req.body;
-        const arma = yield (0, db_1.default)('Armas').where({ id: req.params.id }).first();
+        const arma = yield (0, knex_1.default)('Armas').where({ id: req.params.id }).first();
         if (!arma) {
             res.status(404).json({ error: 'Arma não encontrada' });
             return;
         }
-        const updatedArma = yield (0, db_1.default)('Armas').where({ id: req.params.id }).update(updates).returning('*');
+        const updatedArma = yield (0, knex_1.default)('Armas').where({ id: req.params.id }).update(updates).returning('*');
         res.status(200).json({
             message: 'Arma atualizada!',
             arma: updatedArma
@@ -120,12 +124,12 @@ const patchArma = (req, res, next) => __awaiter(void 0, void 0, void 0, function
 exports.patchArma = patchArma;
 const deleteArma = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const arma = yield (0, db_1.default)('Armas').where({ id: req.params.id }).first();
+        const arma = yield (0, knex_1.default)('Armas').where({ id: req.params.id }).first();
         if (!arma) {
             res.status(404).json({ error: 'Arma não encontrada' }); // Feedback de requisição feita mas falha ao encontrar a arma
             return;
         }
-        yield (0, db_1.default)('Armas').where({ id: req.params.id }).del();
+        yield (0, knex_1.default)('Armas').where({ id: req.params.id }).del();
         res.status(204).send({
             message: 'Arma deletada!',
         });

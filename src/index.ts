@@ -1,26 +1,29 @@
-import express, { Application } from 'express';
-import logger from './config/logger';
-import errorHandler from './middlewares/errorHandler';
-import buildsRoutes from './routes/buildsRoutes';
-import armasRoutes from './routes/armasRoutes';
-import equipamentosRoutes from './routes/equipamentosRoutes';
+import express, { Request, Response } from 'express';
 
-const app: Application = express();
+// Importes de configurações e variaveis do ambiente
+import knex from 'knex';
+import dotenv from 'dotenv';
+
+import testeArma from './routes/rotaTesteArma';
+import testeBuild from './routes/rotaTesteBuild';
+import testeEquip from './routes/rotaTesteEquipamento';
+
+dotenv.config();
+
+const app = express();
+const port = 3000;
+//const db = knex(dot.development);
+
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('API is running');
+// Rota de teste simples
+app.get('/', (req: Request, res: Response) => {
+    res.send('API rodando!');
 });
 
-// Rotas
-app.use('/builds', buildsRoutes);
-app.use('/armas', armasRoutes);
-app.use('/equipamentos', equipamentosRoutes);
+// Rota teste dados em loco
+app.use('/armasTeste', testeArma);
+app.use('/buildTeste', testeBuild);
+app.use('/equipTeste', testeEquip)
 
-// Middleware de erro
-app.use(errorHandler);
-
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  logger.info(`Server running on port ${port}`);
-});
+app.listen(port, () => console.log(`Servidor rodando na porta ${port}`));
