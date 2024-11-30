@@ -1,8 +1,7 @@
 // Controladore para testes e execução de dados em loco
-
 import { Request, Response, NextFunction } from 'express';
 import { Arma, armas } from '../models/armasTeste';
-// import logger from '../config/logger';
+import logger from '../config/logger';
 
 const getAllArmas = (req: Request, res: Response, next: NextFunction): void => {
   try {
@@ -13,7 +12,7 @@ const getAllArmas = (req: Request, res: Response, next: NextFunction): void => {
     });
     
   } catch (error) {
-    //logger.error((error as Error).message);
+    logger.error((error as Error).message);
     next(error);
   }
 };
@@ -31,7 +30,7 @@ const getArmaById = (req: Request, res: Response, next: NextFunction): void => {
     });
 
   } catch (error) {
-    //logger.error((error as Error).message);
+    logger.error((error as Error).message);
     next(error);
   }
 };
@@ -53,7 +52,7 @@ const createArma = (req: Request, res: Response, next: NextFunction): void => {
     });
 
   } catch (error) {
-    //logger.error((error as Error).message);
+    logger.error((error as Error).message);
     next(error);
   }
 };
@@ -85,7 +84,7 @@ const updateArma = (req: Request, res: Response, next: NextFunction): void => {
     });
 
   } catch (error) {
-    //logger.error((error as Error).message);
+    logger.error((error as Error).message);
     next(error);
   }
 };
@@ -114,7 +113,7 @@ const patchArma = (req: Request, res: Response, next: NextFunction): void => {
       arma: armas[armaIndex],
     });
   } catch (error) {
-    //logger.error((error as Error).message);
+    logger.error((error as Error).message);
     next(error);
   }
 };
@@ -134,7 +133,7 @@ const deleteArma = (req: Request, res: Response, next: NextFunction): void => {
     });
 
   } catch (error) {
-    //logger.error((error as Error).message);
+    logger.error((error as Error).message);
     next(error);
   }
 };

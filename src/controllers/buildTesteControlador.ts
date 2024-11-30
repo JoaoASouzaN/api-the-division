@@ -1,6 +1,7 @@
 // Controladore para testes e execução de dados em loco
 import { Request, Response, NextFunction } from 'express';
 import { Build, builds } from '../models/buildsTeste';
+import logger from '../config/logger';
 
 const getAllBuilds = (req: Request, res: Response, next: NextFunction): void => {
   try {
@@ -10,6 +11,7 @@ const getAllBuilds = (req: Request, res: Response, next: NextFunction): void => 
       build: builds
     });
   } catch (error) {
+    logger.error((error as Error).message);
     next(error); // Chama o middleware de erro
   }
 };
@@ -26,6 +28,7 @@ const getBuildById = (req: Request, res: Response, next: NextFunction): void => 
       build: build
     });
   } catch (error) {
+    logger.error((error as Error).message);
     next(error);
   }
 };
@@ -46,6 +49,7 @@ const createBuild = (req: Request, res: Response, next: NextFunction): void => {
       build: newBuild
     });
   } catch (error) {
+    logger.error((error as Error).message);
     next(error);
   }
 };
@@ -75,6 +79,7 @@ const updateBuild = (req: Request, res: Response, next: NextFunction): void => {
     });
 
   } catch (error) {
+    logger.error((error as Error).message);
     next(error);
   }
 };
@@ -102,6 +107,7 @@ const patchBuild = (req: Request, res: Response, next: NextFunction): void => {
       build: builds[buildIndex],
     });
   } catch (error) {
+    logger.error((error as Error).message);
     next(error);
   }
 };
@@ -120,6 +126,7 @@ const deleteBuild = (req: Request, res: Response, next: NextFunction): void => {
       message: 'Build deletada com sucesso', // Feedback de sucesso ao deletar a build
     });
   } catch (error) {
+    logger.error((error as Error).message);
     next(error);
   }
 };

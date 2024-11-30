@@ -1,7 +1,7 @@
 // Controladore para testes e execução de dados em loco
 import { Request, Response, NextFunction } from 'express';
 import { Equipamento, equipamentos } from '../models/equipTeste';
-//import logger from '../config/logger';
+import logger from '../config/logger';
 
 const getAllEquipamentos = (req: Request, res: Response, next: NextFunction): void => {
   try {
@@ -11,7 +11,7 @@ const getAllEquipamentos = (req: Request, res: Response, next: NextFunction): vo
     });
 
   } catch (error) {
-    //logger.error((error as Error).message);
+    logger.error((error as Error).message);
     next(error); 
   }
 };
@@ -29,7 +29,7 @@ const getEquipamentoById = (req: Request, res: Response, next: NextFunction): vo
     });
 
   } catch (error) {
-    //logger.error((error as Error).message);
+    logger.error((error as Error).message);
     next(error);
   }
 };
@@ -50,7 +50,7 @@ const createEquipamento = (req: Request, res: Response, next: NextFunction): voi
     });
 
   } catch (error) {
-    //logger.error((error as Error).message);
+    logger.error((error as Error).message);
     next(error);
   }
 };
@@ -79,7 +79,7 @@ const updateEquipamento = (req: Request, res: Response, next: NextFunction): voi
     });
 
   } catch (error) {
-    //logger.error((error as Error).message);
+    logger.error((error as Error).message);
     next(error);
   }
 };
@@ -104,7 +104,7 @@ const patchEquipamento = (req: Request, res: Response, next: NextFunction): void
       equipamento: equipamentos[equipamentoIndex],
     });
   } catch (error) {
-    //logger.error((error as Error).message);
+    logger.error((error as Error).message);
     next(error);
   }
 };
@@ -123,7 +123,7 @@ const deleteEquipamento = (req: Request, res: Response, next: NextFunction): voi
     });
 
   } catch (error) {
-    //logger.error((error as Error).message);
+    logger.error((error as Error).message);
     next(error);
   }
 };
