@@ -5,7 +5,7 @@ dotenv.config();
 
 const config: { [key: string]: Knex.Config } = {
   development: {
-    client: 'mssql',
+    client: 'mysql',
     connection: {
       server: process.env.DB_HOST,
       user: process.env.DB_USER,
