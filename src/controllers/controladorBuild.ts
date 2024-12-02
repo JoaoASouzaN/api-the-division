@@ -1,7 +1,10 @@
 // Para o banco
 import { Request, Response, NextFunction } from 'express';
-import db from '../config/knexfile';
+import knex from 'knex';
+import config from '../config/knexfile';
 import logger from '../config/logger';
+
+const db = knex(config);
 
 const getAllBuilds = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {

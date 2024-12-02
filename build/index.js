@@ -5,9 +5,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const rotaTesteArma_1 = __importDefault(require("./routes/rotaTesteArma"));
-const rotaTesteBuild_1 = __importDefault(require("./routes/rotaTesteBuild"));
-const rotaTesteEquipamento_1 = __importDefault(require("./routes/rotaTesteEquipamento"));
+// Importe rotas para o banco de dados
+const rotaArmas_1 = __importDefault(require("./routes/rotaArmas"));
+const rotaBuilds_1 = __importDefault(require("./routes/rotaBuilds"));
+const rotaEquip_1 = __importDefault(require("./routes/rotaEquip"));
+// Importe rotas testes
+const testeRotaArma_1 = __importDefault(require("./routes/testeRotaArma"));
+const testeRotaBuild_1 = __importDefault(require("./routes/testeRotaBuild"));
+const testeRotaEquipamento_1 = __importDefault(require("./routes/testeRotaEquipamento"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = 3000;
@@ -17,8 +22,13 @@ app.use(express_1.default.json());
 app.get('/', (req, res) => {
     res.send('API rodando!');
 });
+// http://localhost:3000/armas/ OU  http://127.0.0.1:3000/armas/
+// Rota para o banco
+app.use('/armas', rotaArmas_1.default);
+app.use('/builds', rotaBuilds_1.default);
+app.use('/equipamentos', rotaEquip_1.default);
 // Rota teste dados em loco
-app.use('/armasTeste', rotaTesteArma_1.default);
-app.use('/buildTeste', rotaTesteBuild_1.default);
-app.use('/equipTeste', rotaTesteEquipamento_1.default);
+app.use('/armasTeste', testeRotaArma_1.default);
+app.use('/buildTeste', testeRotaBuild_1.default);
+app.use('/equipTeste', testeRotaEquipamento_1.default);
 app.listen(port, () => console.log(`Servidor rodando na porta ${port}`));

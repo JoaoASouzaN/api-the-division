@@ -20,6 +20,3 @@ Enviar as mudanças para o repositório remoto:
     git push
 
 git status pode ajudar a resolver problemas
-
-http://localhost:3000/armas/
-127.0.0.1

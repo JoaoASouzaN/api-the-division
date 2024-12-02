@@ -4,9 +4,15 @@ import express, { Request, Response } from 'express';
 import knex from 'knex';
 import dotenv from 'dotenv';
 
-import testeArma from './routes/rotaTesteArma';
-import testeBuild from './routes/rotaTesteBuild';
-import testeEquip from './routes/rotaTesteEquipamento';
+// Importe rotas para o banco de dados
+import armas from './routes/rotaArmas';
+import builds from './routes/rotaBuilds';
+import equipamentos from './routes/rotaEquip'; 
+
+// Importe rotas testes
+import testeArma from './routes/testeRotaArma';
+import testeBuild from './routes/testeRotaBuild';
+import testeEquip from './routes/testeRotaEquipamento';
 
 dotenv.config();
 
@@ -20,6 +26,13 @@ app.use(express.json());
 app.get('/', (req: Request, res: Response) => {
     res.send('API rodando!');
 });
+
+// http://localhost:3000/armas/ OU  http://127.0.0.1:3000/armas/
+
+// Rota para o banco
+app.use('/armas', armas);
+app.use('/builds', builds);
+app.use('/equipamentos', equipamentos);
 
 // Rota teste dados em loco
 app.use('/armasTeste', testeArma);

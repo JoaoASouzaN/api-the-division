@@ -25,8 +25,8 @@ const getArmaById = (req: Request, res: Response, next: NextFunction): void => {
       return;
     }
     res.status(200).json({  // Feedback de sucesso
-      message: 'Arma encontradas!',
-      Armas: armas
+      message: 'Arma encontrada!',
+      Arma: arma
     });
 
   } catch (error) {

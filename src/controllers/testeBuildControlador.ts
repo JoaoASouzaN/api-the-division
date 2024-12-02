@@ -25,7 +25,7 @@ const getBuildById = (req: Request, res: Response, next: NextFunction): void => 
     }
     res.status(200).json({
       message: 'Build encontrada com sucesso', // Feedback possitivo para busca da build
-      build: build
+      Build: build
     });
   } catch (error) {
     logger.error((error as Error).message);

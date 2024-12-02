@@ -1,7 +1,10 @@
 // Para o banco
 import { Request, Response, NextFunction } from 'express';
-import db from '../config/knexfile';
+import knex from 'knex';
+import config from '../config/knexfile';
 import logger from '../config/logger';
+
+const db = knex(config);
 
 const getAllArmas = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -39,18 +42,22 @@ const getArmaById = async (req: Request, res: Response, next: NextFunction): Pro
 
 const createArma = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { nome, dano, tipo, danoCritico, taxaDisparo, alcance } = req.body;
-    if (!nome || !dano || !tipo || !danoCritico || !taxaDisparo || !alcance) {
+    const { nome, dano, tipo, danoCritico, taxaDisparo} = req.body;
+    if (!nome || !dano || !tipo || !danoCritico || !taxaDisparo) {
       res.status(400).json({ error: 'Todos os campos são obrigatórios' }); // Feedback de preenchimento incompleto
       return;
     }
 
-const [newArma] = await db('Armas').insert({ nome, dano, tipo, danoCritico, taxaDisparo, alcance }).returning('*');
+// Inserção no banco de dados
+const [id] = await db('Armas').insert({ nome, dano, tipo, danoCritico, taxaDisparo });
+    
+// Buscar o registro recém-criado
+const newArma = await db('Armas').where({ id }).first();
 
-  res.status(201).json({  // Feedback de sucesso
-    message: 'Nova arma adicionada!',
-    Armas: newArma
-  });
+res.status(201).json({
+  message: 'Nova arma adicionada!',
+  arma: newArma
+});
 
   } catch (error) {
     logger.error((error as Error).message);
@@ -68,21 +75,9 @@ const updateArma = async (req: Request, res: Response, next: NextFunction): Prom
     }
 
     const updatedArma = await db('Armas').where({ id: req.params.id }).update({ nome, dano, tipo, danoCritico, taxaDisparo, alcance }).returning('*');
-      res.status(200).json({ // Feedback de preenchimento incompleto
+    res.status(200).json({
       message: 'Arma atualizada!',
-      arma: updatedArma
-    });
-
-    arma.nome = nome;
-    arma.dano = dano;
-    arma.tipo = tipo;
-    arma.danoCritico = danoCritico;
-    arma.taxaDisparo = taxaDisparo;
-    arma.alcance = alcance;
-
-    res.status(200).json({  // Feedback de sucesso
-      message: 'Armas atualizada!',
-      Armas: arma
+      arma: updatedArma[0]  // Retorna o objeto atualizado
     });
 
   } catch (error) {
