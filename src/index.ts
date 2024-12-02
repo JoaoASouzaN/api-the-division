@@ -1,7 +1,6 @@
 import express, { Request, Response } from 'express';
 
 // Importes de configurações e variaveis do ambiente
-import knex from 'knex';
 import dotenv from 'dotenv';
 
 // Importe rotas para o banco de dados
