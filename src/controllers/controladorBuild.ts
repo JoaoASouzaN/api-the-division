@@ -12,12 +12,6 @@ const getAllBuilds = async (req: Request, res: Response, next: NextFunction): Pr
     const offset = (Number(page) - 1) * Number(limit);
     const builds = await db('Builds').limit(Number(limit)).offset(offset);
 
-    // Buscar armas e equipamentos para cada build
-    for (const build of builds) {
-      build.armas = await db('Armas').whereIn('id', build.armas);
-      build.equipamentos = await db('Equipamentos').whereIn('id', build.equipamentos);
-    }
-
     res.status(200).json({  // Feedback de sucesso
       message: 'Build encontradas!',
       build: builds

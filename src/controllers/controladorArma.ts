@@ -15,7 +15,7 @@ const getAllArmas = async (req: Request, res: Response, next: NextFunction): Pro
       message: 'Armas encontradas!',
       armas
     });
-    
+
   } catch (error) {
     logger.error((error as Error).message);
     next(error); // Lança o erro
@@ -42,22 +42,22 @@ const getArmaById = async (req: Request, res: Response, next: NextFunction): Pro
 
 const createArma = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const { nome, dano, tipo, danoCritico, taxaDisparo} = req.body;
+    const { nome, dano, tipo, danoCritico, taxaDisparo } = req.body;
     if (!nome || !dano || !tipo || !danoCritico || !taxaDisparo) {
       res.status(400).json({ error: 'Todos os campos são obrigatórios' }); // Feedback de preenchimento incompleto
       return;
     }
 
-// Inserção no banco de dados
-const [id] = await db('Armas').insert({ nome, dano, tipo, danoCritico, taxaDisparo });
-    
-// Buscar o registro recém-criado
-const newArma = await db('Armas').where({ id }).first();
+    // Inserção no banco de dados
+    const [id] = await db('Armas').insert({ nome, dano, tipo, danoCritico, taxaDisparo });
 
-res.status(201).json({
-  message: 'Nova arma adicionada!',
-  arma: newArma
-});
+    // Buscar o registro recém-criado
+    const newArma = await db('Armas').where({ id }).first();
+
+    res.status(201).json({
+      message: 'Nova arma adicionada!',
+      arma: newArma
+    });
 
   } catch (error) {
     logger.error((error as Error).message);

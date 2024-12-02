@@ -27,8 +27,6 @@ app.get('/', (req: Request, res: Response) => {
     res.send('API rodando!');
 });
 
-// http://localhost:3000/armas/ OU  http://127.0.0.1:3000/armas/
-
 // Rota para o banco
 app.use('/armas', armas);
 app.use('/builds', builds);
@@ -40,3 +38,5 @@ app.use('/buildTeste', testeBuild);
 app.use('/equipTeste', testeEquip)
 
 app.listen(port, () => console.log(`Servidor rodando na porta ${port}`));
+
+// http://localhost:3000/armas/ OU  http://127.0.0.1:3000/armas/
