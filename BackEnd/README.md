@@ -82,8 +82,22 @@ http://localhost:3000/
 - **[/armas/2](http://localhost:3000/2)** - Atualiza campos específicos de uma arma que possue o ID 2.
 - **[/armas/1](http://localhost:3000/1)** - Deleta uma arma de ID 1.
 
-**Equipamentos e Builds:**  
-Endpoints semelhantes estão disponíveis para manipulação de equipamentos e builds. Consulte a documentação no Postman para detalhes completos e exemplos de requisições.
+**Builds:**  
+- **[/builds](http://localhost:3000/builds)** - Lista todas as builds (com paginação).
+- **[/builds](http://localhost:3000/builds2)** - Busca uma build específica por ID.
+- **[/builds](http://localhost:3000/builds)** - Cria uma nova build.
+- **[/builds](http://localhost:3000/builds2)** - Atualiza uma build de ID=3 existente.
+- **[/builds](http://localhost:3000/builds1)** - Atualiza campos específicos de uma build que possui o ID 3.
+- **[/builds](http://localhost:3000/builds3)** - Deleta uma build de ID 2.
+
+**Equipamentos:**
+
+- **[/equipamentos](http://localhost:3000/builds)** - Lista todos os equipamentos (com paginação).
+- **[/equipamentos/3](http://localhost:3000/builds)** - Busca um equipamento específico por ID.
+- **[/equipamentos/1](http://localhost:3000/builds)** - Cria um novo equipamento.
+- **[/equipamentos/1](http://localhost:3000/builds)** - Atualiza um equipamento de ID=2 existente.
+- **[/equipamentos1](http://localhost:3000/builds)** - Atualiza campos específicos de um equipamento que possui o ID 2.
+- **[/equipamentos2](http://localhost:3000/builds)** - Deleta um equipamento de ID 1.
 
 ---
 
